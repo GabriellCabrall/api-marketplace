@@ -19,3 +19,37 @@ export const services = sqliteTable("services", {
   regiao: text("regiao").notNull(),
   prestadorEmail: text("prestadorEmail").notNull(),
 });
+
+export const contracts = sqliteTable("contracts", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  serviceId: integer("serviceId").notNull(),
+  titulo: text("titulo").notNull(),
+  preco: text("preco").notNull(),
+  userEmail: text("userEmail").notNull(),
+  prestadorEmail: text("prestadorEmail").notNull(),
+  metodoPagamento: text("metodoPagamento", { enum: ["pix", "cartao"] }).notNull(),
+  data: text("data"),
+  hora: text("hora"),
+  status: text("status", { enum: ["pendente", "confirmado"] }).notNull().default("confirmado"),
+  criadoEm: text("criadoEm").notNull(),
+});
+
+export const messages = sqliteTable("messages", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  contractId: integer("contractId").notNull(),
+  senderEmail: text("senderEmail").notNull(),
+  text: text("text").notNull(),
+  criadoEm: text("criadoEm").notNull(),
+});
+
+export const schedules = sqliteTable("schedules", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  serviceId: integer("serviceId").notNull(),
+  titulo: text("titulo").notNull(),
+  userEmail: text("userEmail").notNull(),
+  prestadorEmail: text("prestadorEmail").notNull(),
+  data: text("data").notNull(),
+  hora: text("hora").notNull(),
+  status: text("status", { enum: ["pendente", "confirmado", "cancelado"] }).notNull().default("pendente"),
+  criadoEm: text("criadoEm").notNull(),
+});
