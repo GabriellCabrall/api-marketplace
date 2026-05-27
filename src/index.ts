@@ -3,6 +3,9 @@ import express from "express";
 import cors from "cors";
 import usersRouter from "./routes/users";
 import servicesRouter from "./routes/services";
+import contractsRouter from "./routes/contracts";
+import schedulesRouter from "./routes/schedules";
+import messagesRouter from "./routes/messages";
 
 const app = express();
 
@@ -13,6 +16,9 @@ app.get("/health", (_req, res) => res.json({ status: "ok" }));
 
 app.use("/users", usersRouter);
 app.use("/services", servicesRouter);
+app.use("/contracts", contractsRouter);
+app.use("/schedules", schedulesRouter);
+app.use("/messages", messagesRouter);
 
 // Vercel exporta o app; localmente sobe o servidor
 if (process.env.VERCEL !== "1") {
