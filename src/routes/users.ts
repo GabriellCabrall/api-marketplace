@@ -9,6 +9,14 @@ const router = Router();
 router.post("/", async (req, res) => {
   const { nome, email, senha, tipo, regiao } = req.body;
 
+  if (tipo === "admin") {
+    const { adminSecret } = req.body;
+    if (!adminSecret || adminSecret !== process.env.ADMIN_SECRET) {
+      res.status(403).json({ message: "Não autorizado" });
+      return;
+    }
+  }
+
   const existing = await db.select().from(users).where(eq(users.email, email));
   if (existing.length > 0) {
     res.status(409).json({ message: "E-mail já cadastrado" });
