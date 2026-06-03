@@ -6,6 +6,7 @@ import servicesRouter from "./routes/services";
 import contractsRouter from "./routes/contracts";
 import schedulesRouter from "./routes/schedules";
 import messagesRouter from "./routes/messages";
+import availabilityRouter from "./routes/availability";
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use("/services", servicesRouter);
 app.use("/contracts", contractsRouter);
 app.use("/schedules", schedulesRouter);
 app.use("/messages", messagesRouter);
+app.use("/availability", availabilityRouter);
 
 // Vercel exporta o app; localmente sobe o servidor
 if (process.env.VERCEL !== "1") {

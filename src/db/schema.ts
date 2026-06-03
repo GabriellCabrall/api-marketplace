@@ -53,3 +53,11 @@ export const schedules = sqliteTable("schedules", {
   status: text("status", { enum: ["pendente", "confirmado", "cancelado"] }).notNull().default("pendente"),
   criadoEm: text("criadoEm").notNull(),
 });
+
+// Disponibilidade recorrente por dia da semana (0=Dom … 6=Sáb)
+export const providerAvailability = sqliteTable("providerAvailability", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  prestadorEmail: text("prestadorEmail").notNull(),
+  diaSemana: integer("diaSemana").notNull(), // 0-6
+  hora: text("hora").notNull(),             // "08:00" … "18:00"
+});
