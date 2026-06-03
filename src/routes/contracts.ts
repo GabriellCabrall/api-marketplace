@@ -41,4 +41,38 @@ router.post("/", async (req, res) => {
   res.status(201).json(result[0]);
 });
 
+router.patch("/:id/confirmar", async (req, res) => {
+  const id = Number(req.params.id);
+
+  const result = await db
+    .update(contracts)
+    .set({ status: "confirmado" })
+    .where(eq(contracts.id, id))
+    .returning();
+
+  if (result.length === 0) {
+    res.status(404).json({ message: "Contrato não encontrado" });
+    return;
+  }
+
+  res.json(result[0]);
+});
+
+router.patch("/:id/cancelar", async (req, res) => {
+  const id = Number(req.params.id);
+
+  const result = await db
+    .update(contracts)
+    .set({ status: "cancelado" })
+    .where(eq(contracts.id, id))
+    .returning();
+
+  if (result.length === 0) {
+    res.status(404).json({ message: "Contrato não encontrado" });
+    return;
+  }
+
+  res.json(result[0]);
+});
+
 export default router;
