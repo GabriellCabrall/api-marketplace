@@ -8,6 +8,7 @@ import schedulesRouter from "./routes/schedules";
 import messagesRouter from "./routes/messages";
 import availabilityRouter from "./routes/availability";
 import adminRouter from "./routes/admin";
+import { requireAdmin } from "./middleware/auth";
 
 const app = express();
 
@@ -22,7 +23,7 @@ app.use("/contracts", contractsRouter);
 app.use("/schedules", schedulesRouter);
 app.use("/messages", messagesRouter);
 app.use("/availability", availabilityRouter);
-app.use("/admin", adminRouter);
+app.use("/admin", requireAdmin, adminRouter);
 
 // Vercel exporta o app; localmente sobe o servidor
 if (process.env.VERCEL !== "1") {

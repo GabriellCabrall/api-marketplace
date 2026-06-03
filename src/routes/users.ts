@@ -1,8 +1,10 @@
 import { eq } from "drizzle-orm";
 import { Router } from "express";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { db } from "../db";
 import { users } from "../db/schema";
+import { JWT_SECRET } from "../middleware/auth";
 
 const router = Router();
 
@@ -46,7 +48,12 @@ router.post("/login", async (req, res) => {
   }
 
   const { senha: _, ...userWithoutPassword } = user;
-  res.json(userWithoutPassword);
+  const token = jwt.sign(
+    { id: user.id, email: user.email, tipo: user.tipo },
+    JWT_SECRET,
+    { expiresIn: "30d" }
+  );
+  res.json({ user: userWithoutPassword, token });
 });
 
 export default router;
