@@ -1,4 +1,4 @@
-import { and, eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { Router } from "express";
 import { db } from "../db";
 import { providerAvailability, schedules, contracts } from "../db/schema";
@@ -83,25 +83,27 @@ router.get("/slots", async (req, res) => {
     return;
   }
 
-  // Horários já reservados via schedules nessa data
+  // Horários já reservados via schedules nessa data (apenas ativos)
   const agendados = await db
     .select({ hora: schedules.hora })
     .from(schedules)
     .where(
       and(
         eq(schedules.prestadorEmail, prestadorEmail),
-        eq(schedules.data, data)
+        eq(schedules.data, data),
+        inArray(schedules.status, ["pendente", "confirmado"])
       )
     );
 
-  // Horários já reservados via contracts nessa data
+  // Horários já reservados via contracts nessa data (apenas ativos)
   const contratados = await db
     .select({ hora: contracts.hora })
     .from(contracts)
     .where(
       and(
         eq(contracts.prestadorEmail, prestadorEmail),
-        eq(contracts.data, data)
+        eq(contracts.data, data),
+        inArray(contracts.status, ["pendente", "confirmado"])
       )
     );
 
