@@ -30,7 +30,7 @@ export const contracts = sqliteTable("contracts", {
   metodoPagamento: text("metodoPagamento", { enum: ["pix", "cartao"] }).notNull(),
   data: text("data"),
   hora: text("hora"),
-  status: text("status", { enum: ["pendente", "confirmado", "cancelado"] }).notNull().default("pendente"),
+  status: text("status", { enum: ["pendente", "confirmado", "rejeitado", "cancelado"] }).notNull().default("pendente"),
   criadoEm: text("criadoEm").notNull(),
 });
 

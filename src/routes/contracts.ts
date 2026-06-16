@@ -58,6 +58,23 @@ router.patch("/:id/confirmar", async (req, res) => {
   res.json(result[0]);
 });
 
+router.patch("/:id/rejeitar", async (req, res) => {
+  const id = Number(req.params.id);
+
+  const result = await db
+    .update(contracts)
+    .set({ status: "rejeitado" })
+    .where(eq(contracts.id, id))
+    .returning();
+
+  if (result.length === 0) {
+    res.status(404).json({ message: "Contrato não encontrado" });
+    return;
+  }
+
+  res.json(result[0]);
+});
+
 router.patch("/:id/cancelar", async (req, res) => {
   const id = Number(req.params.id);
 
